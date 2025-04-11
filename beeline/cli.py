@@ -1,8 +1,10 @@
 import click
+import json
 
 from beeline.deployment.prep import prep_for_deploy as prep_for_deploy_func
 from beeline.flying.fly import fly as fly_func
 from beeline.flying.fly import list_job_definitions as list_job_definitions_func
+from beeline.flying.fly import pull_script as pull_script_func
 
 @click.group()
 def cli():
@@ -25,8 +27,20 @@ def options():
 
 @cli.command()
 @click.argument('job_definition')
-def fly(job_definition):
+@click.argument('script_path')
+@click.argument('config_path')
+def fly(job_definition, script_path, config_path):
     """
     Run a job!
     """
-    fly_func(job_definition)
+    with open(config_path, 'r') as fh:
+        config = json.load(fh)
+    fly_func(job_definition, script_path, config)
+
+@cli.command()
+@click.argument('script')
+def pull_script(script):
+    """
+    Pull a script from S3.
+    """
+    pull_script_func(script)

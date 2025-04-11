@@ -7,7 +7,7 @@
             "space": "beeline",
             "execution_role": "execution-role",
             "databases": [],
-            "buckets": [],
+            "buckets": ["meadow", "hive", "wings"],
             "run_batch": true
         }
     }

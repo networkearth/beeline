@@ -1,3 +1,4 @@
+import os
 import boto3
 
 def list_job_definitions():

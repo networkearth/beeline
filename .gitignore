@@ -1,0 +1,4 @@
+job_definitions/
+build/
+beeline.egg-info/
+*.pyc

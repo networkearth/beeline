@@ -6,5 +6,12 @@ setup(
     author="Marcel Gietzmann-Sanders",
     author_email="marcelsanders96@gmail.com",
     packages=find_packages(include=["beeline", "beeline*"]),
-    install_requires=[],
+    install_requires=[
+        "click==8.1.7",
+    ],
+    entry_points={
+        "console_scripts": [
+            "beeline = beeline.cli:cli",
+        ]
+    },
 )

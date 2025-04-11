@@ -1,7 +1,15 @@
+"""
+Everything we need to fly!
+"""
+
 import os
 import boto3
 
 def list_job_definitions():
+    """
+    List all job definitions in the AWS Batch service and 
+    retrieve the ones that start with 'beeline'.
+    """
     client = boto3.client('batch', 'us-east-1')
     response = client.describe_job_definitions()
     job_defs = sorted([job_definition['jobDefinitionName'] for job_definition in response['jobDefinitions']])
@@ -9,6 +17,15 @@ def list_job_definitions():
         if job_def.startswith('beeline'): print(job_def)
 
 def fly(job_definition, script_path, config):
+    """
+    Inputs:
+    - job_definition: The name of the job definition to use.
+    - script_path: The path to the script to run.
+    - config: A dictionary containing the configuration for the job.
+    
+    Triggers the AWS Batch job with the specified job definition and script.
+    """
+
     name = config['name']
     output_bucket = config['output_bucket']
     input_bucket = config['input_bucket']
@@ -35,12 +52,27 @@ def fly(job_definition, script_path, config):
     )
 
 def pull_script(script):
+    """
+    Inputs:
+    - script: The name of the script to pull from S3.
+
+    Downloads the specified script from S3 and saves it locally.
+    """
+
     s3 = boto3.client('s3')
     bucket_name = 'beeline-wings'
     script_path = "script.R"
     s3.download_file(bucket_name, script, script_path)
 
 def save_outputs(name, output_bucket):
+    """
+    Inputs:
+    - name: The name of the job.
+    - output_bucket: The name of the S3 bucket to save outputs to.
+
+    Uploads all files from the 'outputs' directory to the specified S3 bucket.
+    """
+
     file_paths = set()
     for root, _, files in os.walk('outputs'):
         for file in files:
@@ -54,6 +86,14 @@ def save_outputs(name, output_bucket):
         s3.upload_file(file_path, bucket_name, upload_path)
 
 def pull_inputs(input_bucket, prefix):
+    """
+    Inputs:
+    - input_bucket: The name of the S3 bucket to pull inputs from.
+    - prefix: The prefix to filter the objects in the S3 bucket.
+
+    Downloads all files from the specified S3 bucket and prefix to the local 'inputs' directory.
+    """
+
     assert prefix.endswith('/'), "Prefix must end with a '/'"
 
     s3 = boto3.client('s3')

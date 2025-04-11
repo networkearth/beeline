@@ -1,3 +1,7 @@
+"""
+This script prepares for deployment by generating a job definition.
+"""
+
 import os
 import shutil
 import json
@@ -5,9 +9,25 @@ import json
 JOB_DEF_PARENT_FOLDER = 'job_definitions'
 
 def sanitize(name):
+    """
+    Inputs:
+    - name: The name to sanitize.
+
+    Sanitize the name by replacing dots with dashes and converting to lowercase.
+    """
     return name.replace('.', '-').lower()
 
 def prep_for_deploy(container, configuration, requirements, entrypoint):
+    """
+    Inputs:
+    - container: The name of the container to use.
+    - configuration: The name of the configuration to use.
+    - requirements: The name of the requirements file to use.
+    - entrypoint: The name of the entrypoint script to use.
+
+    Prepare for deployment by generating a job definition.
+    """
+
     job_definition = '-'.join([
         sanitize(container),
         sanitize(configuration),
@@ -53,5 +73,3 @@ def prep_for_deploy(container, configuration, requirements, entrypoint):
 
     with open(configuration_dest, 'w') as fh:
         json.dump(config, fh, indent=4)
-
-    

@@ -25,6 +25,10 @@ def prep_for_deploy(container, configuration, requirements, entrypoint):
 
 @cli.command()
 def options():
+    """
+    List all job definitions in the AWS Batch service 
+    and retrieve the ones that start with 'beeline'.
+    """
     list_job_definitions_func()
 
 @cli.command()

@@ -26,7 +26,7 @@ RUN R -e "install.packages('mgcv')"
 RUN apt-get -y install python3 python-is-python3
 RUN apt-get -y install python3-pip
 
-ARG CACHEBUST=1
+ARG CACHEBUST=2
 COPY requirements.txt .
 RUN pip install --break-system-packages -r requirements.txt
 

@@ -2,3 +2,5 @@ job_definitions/
 build/
 beeline.egg-info/
 *.pyc
+cdk.context.json
+cdk.out/

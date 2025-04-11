@@ -1,0 +1,14 @@
+{
+    "app": "watercycle synth execution-role",
+    "context": {
+        "config": {
+            "account": "575101084097",
+            "region": "us-east-1",
+            "space": "beeline",
+            "execution_role": "execution-role",
+            "databases": [],
+            "buckets": [],
+            "run_batch": true
+        }
+    }
+}

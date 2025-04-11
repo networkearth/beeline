@@ -47,5 +47,5 @@ def save_outputs(name, output_bucket):
     bucket_name = f'beeline-{output_bucket}'
 
     for file_path in file_paths:
-        upload_path = os.path.join(name, '/'.join(*file_path.split('/')[1:]))
+        upload_path = os.path.join(name, '/'.join(file_path.split('/')[1:]))
         s3.upload_file(file_path, bucket_name, upload_path)

@@ -12,7 +12,7 @@ def fly(job_definition, script_path, config):
     name = config['name']
     output_bucket = config['output_bucket']
     input_bucket = config['input_bucket']
-    prefix = config['prefix']
+    prefix = config['input_prefix']
 
     # upload the script to S3
     s3 = boto3.client('s3')

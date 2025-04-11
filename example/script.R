@@ -2,4 +2,7 @@
 
 print("Welcome to R World!")
 
-cat("Write to a File", file="output/outfile.txt", sep="\n")
+file.show("inputs/input1.txt")
+file.show("inputs/subdir/input2.txt")
+
+cat("Write to a File", file="outputs/outfile.txt", sep="\n")

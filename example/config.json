@@ -1,4 +1,6 @@
 {
     "name": "example",
-    "output_bucket": "hive"
+    "output_bucket": "hive",
+    "input_bucket": "meadow",
+    "input_prefix": "example_inputs/"
 }

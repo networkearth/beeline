@@ -11,6 +11,8 @@ def list_job_definitions():
 def fly(job_definition, script_path, config):
     name = config['name']
     output_bucket = config['output_bucket']
+    input_bucket = config['input_bucket']
+    prefix = config['prefix']
 
     # upload the script to S3
     s3 = boto3.client('s3')
@@ -26,7 +28,8 @@ def fly(job_definition, script_path, config):
         jobDefinition=job_definition,
         containerOverrides={
             "command": [
-                f"{name}.{extension}", name, output_bucket
+                f"{name}.{extension}", name, output_bucket,
+                input_bucket, prefix
             ]
         },
     )
@@ -39,7 +42,7 @@ def pull_script(script):
 
 def save_outputs(name, output_bucket):
     file_paths = set()
-    for root, _, files in os.walk('output'):
+    for root, _, files in os.walk('outputs'):
         for file in files:
             file_paths.add(os.path.join(root, file))
     
@@ -49,3 +52,18 @@ def save_outputs(name, output_bucket):
     for file_path in file_paths:
         upload_path = os.path.join(name, '/'.join(file_path.split('/')[1:]))
         s3.upload_file(file_path, bucket_name, upload_path)
+
+def pull_inputs(input_bucket, prefix):
+    assert prefix.endswith('/'), "Prefix must end with a '/'"
+
+    s3 = boto3.client('s3')
+    bucket_name = f'beeline-{input_bucket}'
+    response = s3.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
+
+    if 'Contents' in response:
+        for obj in response['Contents']:
+            if obj['Key'].endswith('/'): continue
+            key = obj['Key']
+            local_path = os.path.join(*(['inputs'] + key.split('/')[1:]))
+            os.makedirs(os.path.dirname(local_path), exist_ok=True)
+            s3.download_file(bucket_name, key, local_path)

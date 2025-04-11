@@ -6,6 +6,7 @@ from beeline.flying.fly import fly as fly_func
 from beeline.flying.fly import list_job_definitions as list_job_definitions_func
 from beeline.flying.fly import pull_script as pull_script_func
 from beeline.flying.fly import save_outputs as save_outputs_func
+from beeline.flying.fly import pull_inputs as pull_inputs_func
 
 @click.group()
 def cli():
@@ -54,3 +55,12 @@ def save_outputs(name, output_bucket):
     Save outputs to S3.
     """
     save_outputs_func(name, output_bucket)
+
+@cli.command()
+@click.argument('input_bucket')
+@click.argument('prefix')
+def pull_inputs(input_bucket, prefix):
+    """
+    Load inputs from S3.
+    """
+    pull_inputs_func(input_bucket, prefix)

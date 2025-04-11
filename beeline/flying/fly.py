@@ -30,6 +30,9 @@ def fly(job_definition, script_path, config):
     output_bucket = config['output_bucket']
     input_bucket = config['input_bucket']
     prefix = config['input_prefix']
+    tags = config['tags']
+    assert "Name" in tags, "Tags must contain a 'Name' key"
+    assert "Project" in tags, "Tags must contain a 'Project' key"
 
     # upload the script to S3
     s3 = boto3.client('s3')
@@ -49,6 +52,7 @@ def fly(job_definition, script_path, config):
                 input_bucket, prefix
             ]
         },
+        tags=tags,
     )
 
 def pull_script(script):

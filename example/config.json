@@ -2,5 +2,9 @@
     "name": "example",
     "output_bucket": "hive",
     "input_bucket": "meadow",
-    "input_prefix": "example_inputs/"
+    "input_prefix": "example_inputs/",
+    "tags": {
+        "Name": "Marcel Gietzmann-Sanders",
+        "Project": "Testing"
+    }
 }

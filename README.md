@@ -36,13 +36,19 @@ Besides that you can do whatever you like!
     "name": "example",
     "output_bucket": "hive",
     "input_bucket": "meadow",
-    "input_prefix": "example_inputs/"
+    "input_prefix": "example_inputs/",
+    "tags": {
+        "Name": "Marcel Gietzmann-Sanders",
+        "Project": "Testing"
+    }
 }
 ```
 
 The `name` is going to be a unique identifier for your job - your results will end up in a directory under that name in the `output_bucket`. 
 
 The `input_bucket` should be where you saved your inputs in S3 and the `input_prefix` should be the folder you uploaded them into. 
+
+Finally the `tags` are there to do cost accounting. You can add whatever you like but `Name` and `Project` are required. 
 
 Let's pretend we saved this as `config.json`
 

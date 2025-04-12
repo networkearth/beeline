@@ -15,7 +15,7 @@ If you haven't already setup your access to AWS see the instructions [below](#se
 
 ## How to Make a `beeline`
 
-### Step 1. Upload Inputs to S3
+### Step 1. Upload Inputs to S3 (See [Using the AWS Console](#using-the-aws-console)) 
 
 This is as simple as creating a folder in S3 and uploading whatever your R script is going to need there. Feel free to create as complex a directory structure as you like - `beeline` will pull it all in at runtime. 
 
@@ -72,9 +72,9 @@ We'll pretend we picked `beeline-mgcv-4-4-2-small-basic-basic` which has `mgcv` 
 beeline fly beeline-mgcv-4-4-2-small-basic-basic script.R config.json
 ```
 
-And just like that `beeline` will submit your job and make sure your results (in `outputs`) get written to the `output_bucket` under a folder that matches the `name` of your job (in the config). 
+And just like that `beeline` will submit your job and make sure your results (in `outputs`) get written to the `output_bucket` under a folder that matches the `name` of your job (in the config). You can see how your job is doing in the Batch console (See [Using the AWS Console](#using-the-aws-console)) 
 
-So in our example our results would end up in `hive:example/`.
+So in our example our results would end up in `hive:example/`. (See [Using the AWS Console](#using-the-aws-console)) 
 
 And that's it!
 

@@ -1,0 +1,49 @@
+FROM ubuntu:24.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get -y update && \
+    apt-get -y upgrade && \
+    apt-get -y install build-essential wget git vim curl
+
+# Point to the appropriate CRAN repository
+# Note that the CRAN repository must match the Ubuntu version (noble in this case)
+RUN wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu noble-cran40/" | tee /etc/apt/sources.list.d/cran.list
+RUN apt-get -y update
+# If you want to see what versions are available you can run: apt list -a r-base
+ARG R_INSTALL_VERSION="4.4.2-1.2404.0"
+RUN apt-get install -y --no-install-recommends \
+    r-recommended=${R_INSTALL_VERSION} \
+    r-base-core=${R_INSTALL_VERSION} \
+    r-base=${R_INSTALL_VERSION} \
+    r-base-dev=${R_INSTALL_VERSION}
+
+# Install R packages
+RUN R -e "install.packages('mgcv')"
+RUN R -e "install.packages('pROC')"
+RUN R -e "install.packages('corrplot')"
+
+RUN apt-get install -y libssl-dev \
+        libcurl4-openssl-dev
+RUN R -e "install.packages('ggmap')"
+
+RUN apt-get install -y libgdal-dev libproj-dev libgeos-dev
+RUN R -e "install.packages('dismo')"
+
+RUN R -e "install.packages('ROCR')"
+RUN R -e "install.packages('rlist')"
+RUN R -e "install.packages('ggeffects')"
+RUN R -e "install.packages('dplyr')"
+
+# Install Python and pip
+RUN apt-get -y install python3 python-is-python3
+RUN apt-get -y install python3-pip
+
+ARG CACHEBUST=7
+COPY requirements.txt .
+RUN pip install --break-system-packages -r requirements.txt
+
+COPY main.sh ./
+RUN chmod 777 main.sh
+ENTRYPOINT ["./main.sh"]
